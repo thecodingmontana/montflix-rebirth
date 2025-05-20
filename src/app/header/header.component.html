@@ -1,12 +1,18 @@
 <nav class="p-5 grid gap-y-5">
-  <a routerLink="/" class="font-rubik text-4xl text-center text-white">Montflix Rebirth</a>
+  <a routerLink="/" class="font-rubik text-4xl text-center text-white">
+    Montflix Rebirth
+  </a>
   <div
-    class="flex lg:justify-center px-4 sm:px-5 text-2xl whitespace-nowrap space-x-6 overflow-x-scroll scrollbar-hide"
+    class="flex lg:justify-center px-4 sm:px-5 text-2xl whitespace-nowrap space-x-6 overflow-x-scroll scrollbar-hide gap-x-4"
   >
     @for (genre of genres(); track $index) {
     <button
-      class="cursor-pointer transition duration-100 transform hover:scale-125 hover:text-white active:text-red-500"
+      class="cursor-pointer transition duration-100 transform hover:text-white active:text-red-500"
       (click)="navigateToGenre(genre.key)"
+      [ngClass]="{
+        'scale-125 text-white hover:scale-110': selectedGenre() === genre.key,
+        'hover:scale-125': selectedGenre() !== genre.key,
+      }"
     >
       {{ genre.title }}
     </button>
