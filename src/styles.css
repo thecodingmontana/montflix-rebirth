@@ -10,3 +10,7 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+body {
+  @apply bg-gradient-to-r from-[#c94b4b] to-[#4b134f];
+}

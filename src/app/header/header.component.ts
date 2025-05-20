@@ -3,6 +3,8 @@ import { environment } from '../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MonflixService } from '../state/monflix.service';
+import { ApiService } from '../services/api.service';
+import { Poster } from '../types';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +14,7 @@ import { MonflixService } from '../state/monflix.service';
 })
 export class HeaderComponent {
   API_KEY = environment.tmdbApiKey;
+
   genres = signal([
     {
       key: 'trending',
@@ -69,15 +72,17 @@ export class HeaderComponent {
       url: `/discover/movie?api_key=${this.API_KEY}&with_genres=10770`,
     },
   ]);
+
   selectedGenre = signal('');
 
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private montflixService: MonflixService
+    private montflixService: MonflixService,
+    private apiService: ApiService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.selectedGenre = this.montflixService.selectedGenre;
 
     this.activeRoute.queryParams.subscribe((params) => {
@@ -87,11 +92,35 @@ export class HeaderComponent {
         this.montflixService.onSetFetchUrl(
           this.genres().find((g) => g.key === genre)?.url || ''
         );
+      } else {
+        this.montflixService.onSetSelectedGenre('trending');
+        this.montflixService.onSetFetchUrl(
+          this.genres().find((g) => g.key === 'trending')?.url || ''
+        );
       }
     });
   }
 
   navigateToGenre(genre: string) {
     this.router.navigateByUrl(`/?genre=${genre}`);
+    this.onFetchData(this.montflixService.fetchUrl());
+  }
+
+  onFetchData(url: string): void {
+    this.montflixService.onLoadingPosters(true);
+    this.apiService.getData(url).subscribe({
+      next: (data) => {
+        console.log('Data fetched successfully!');
+        this.montflixService.onSetPosters(data.results as Poster[]);
+      },
+      error: (error) => {
+        console.error('Error fetching data:', error);
+        this.montflixService.onLoadingPosters(false);
+      },
+      complete: () => {
+        console.log('Data fetching complete');
+        this.montflixService.onLoadingPosters(false);
+      },
+    });
   }
 }

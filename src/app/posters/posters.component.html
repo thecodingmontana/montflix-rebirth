@@ -1,0 +1,26 @@
+<div
+  class="px-5 my-28 grid grid-cols-2 md:grid-cols-5 xl:grid-cols-6 gap-2 3xl:flex flex-wrap justify-center"
+>
+  @for (poster of posters(); track $index) {
+  <button
+    class="p-2 group flex flex-col cursor-pointer transition duration-200 ease-in transform sm:scale-105 hover:z-50 my-4mx-2 rounded-xl"
+  >
+    <img
+      [src]="`${imageBaseUrl}${poster.poster_path || poster.backdrop_path}`"
+      class="rounded-xl"
+      [alt]="`${poster.title || poster.name}`"
+      [height]="1080"
+      [width]="1920"
+      fill
+    />
+    <div class="p-2">
+      <h2 class="mt-1 text-sm text-white">
+        {{ poster.title || poster.name }}
+      </h2>
+      <h3 class="text-xs text-green-600">
+        {{ poster.release_date || poster.first_air_date }}
+      </h3>
+    </div>
+  </button>
+  }
+</div>
