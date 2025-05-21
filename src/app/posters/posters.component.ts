@@ -4,12 +4,13 @@ import { ApiService } from '../services/api.service';
 import { Poster } from '../types';
 import { environment } from '../../environments/environment';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-posters',
   templateUrl: './posters.component.html',
   styleUrl: './posters.component.css',
-  imports: [LazyLoadImageModule],
+  imports: [RouterLink, LazyLoadImageModule],
 })
 export class PostersComponent {
   constructor(
