@@ -17,15 +17,20 @@ export class PostersComponent {
     private apiService: ApiService
   ) {}
 
-  imageBaseUrl = environment.tmdbImageUrl
+  imageBaseUrl = environment.tmdbImageUrl;
   scrollContainer: any;
   loadingImageUrl = 'assets/images/placeholder.png';
-  isLoadingPosters = computed(() =>  this.montflixService.isLoadingPosters());
+  isLoadingPosters = computed(() => this.montflixService.isLoadingPosters());
   posters = computed(() => this.montflixService.posters());
   selectedGenre = computed(() => this.montflixService.selectedGenre());
+  type = computed(() => this.montflixService.type());
 
   ngOnInit(): void {
-    let url = this.montflixService.genres().find((g) => g.key === this.selectedGenre())?.url;
+    const list = this.montflixService
+      .lists()
+      .find((list) => list.type === this.type());
+    const genreObj = list?.genres.find((g) => g.key === this.selectedGenre());
+    const url = genreObj?.url ?? '';
     if (url) {
       this.onFetchData(url);
     }

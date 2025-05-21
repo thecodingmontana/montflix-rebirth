@@ -1,11 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MonflixService } from '../state/monflix.service';
 import { ApiService } from '../services/api.service';
 import { Poster } from '../types';
-import { url } from 'inspector';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +21,8 @@ export class HeaderComponent {
     private apiService: ApiService
   ) {}
 
-  genres = computed(() => this.montflixService.genres());
+  lists = computed(() => this.montflixService.lists());
+  type = computed(() => this.montflixService.type());
 
   ngOnInit(): void {
     this.selectedGenre = this.montflixService.selectedGenre;
@@ -40,9 +39,13 @@ export class HeaderComponent {
 
   navigateToGenre(genre: string) {
     this.router.navigateByUrl(`/?genre=${genre}`);
-    let url = this.montflixService.genres().find((g) => g.key === genre)?.url;
+    const list = this.montflixService
+      .lists()
+      .find((list) => list.type === this.type());
+    const genreObj = list?.genres.find((g) => g.key === genre);
+    const url = genreObj?.url ?? '';
+
     if (url) {
-      console.log('URL:', url);
       this.onFetchData(url);
     }
   }
@@ -63,5 +66,27 @@ export class HeaderComponent {
         this.montflixService.onLoadingPosters(false);
       },
     });
+  }
+
+  onChangeType(type: 'movie' | 'tv shows') {
+    this.montflixService.onChangeType(type);
+    const list = this.montflixService
+      .lists()
+      .find((list) => list.type === this.type());
+    const genreObj = list?.genres.find((g) => {
+      if (g.key === this.selectedGenre()) {
+        return g;
+      }
+      return g.key === 'trending';
+    });
+
+    if (genreObj) {
+      this.montflixService.onSetSelectedGenre(genreObj.key);
+    }
+    const url = genreObj?.url ?? '';
+
+    if (url) {
+      this.onFetchData(url);
+    }
   }
 }
