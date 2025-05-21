@@ -3,11 +3,13 @@ import { MonflixService } from '../state/monflix.service';
 import { ApiService } from '../services/api.service';
 import { Poster } from '../types';
 import { environment } from '../../environments/environment';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 @Component({
   selector: 'app-posters',
   templateUrl: './posters.component.html',
   styleUrl: './posters.component.css',
+  imports: [LazyLoadImageModule],
 })
 export class PostersComponent {
   constructor(
@@ -16,11 +18,17 @@ export class PostersComponent {
   ) {}
 
   imageBaseUrl = environment.tmdbImageUrl
+  scrollContainer: any;
+  loadingImageUrl = 'assets/images/placeholder.png';
   isLoadingPosters = computed(() =>  this.montflixService.isLoadingPosters());
   posters = computed(() => this.montflixService.posters());
+  selectedGenre = computed(() => this.montflixService.selectedGenre());
 
-  ngOnInit() {
-    this.onFetchData(this.montflixService.fetchUrl());
+  ngOnInit(): void {
+    let url = this.montflixService.genres().find((g) => g.key === this.selectedGenre())?.url;
+    if (url) {
+      this.onFetchData(url);
+    }
   }
 
   onFetchData(url: string): void {

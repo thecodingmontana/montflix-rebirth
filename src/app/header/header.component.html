@@ -1,9 +1,9 @@
-<nav class="p-5 grid gap-y-5">
-  <a routerLink="/" class="font-rubik text-4xl text-center text-white">
+<nav class="p-5 grid gap-y-5 fixed w-full top-0 z-50 mb-12 bg-gradient-to-r from-[#c94b4b] to-[#4b134f]">
+  <button (click)="navigateToGenre('trending')" class="font-rubik text-4xl text-center text-white">
     Montflix Rebirth
-  </a>
+  </button>
   <div
-    class="flex lg:justify-center px-4 sm:px-5 text-2xl whitespace-nowrap space-x-6 overflow-x-scroll scrollbar-hide gap-x-4"
+    class="flex px-4 sm:px-5 text-2xl whitespace-nowrap space-x-6 overflow-x-scroll scrollbar-hide gap-x-4"
   >
     @for (genre of genres(); track $index) {
     <button
