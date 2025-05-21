@@ -39,3 +39,21 @@ cd montflix-rebirth
 pnpm install
 # or
 npm install
+```
+
+## 🔑 Setup environment variables
+
+### TMDB API Key Setup
+
+To obtain TMDB API Key:
+
+1. Create a TMDB account: [https://www.themoviedb.org/](https://www.themoviedb.org/)
+2. Generate an API key under your profile settings
+
+Create a `.env` file in the root:
+
+```.env
+NG_APP_TMDB_API_KEY = ****************
+NG_APP_TMDB_API_URL = https://api.themoviedb.org/3
+NG_APP_TMDB_API_IMAGE_URL = https://image.tmdb.org/t/p/w500
+```
