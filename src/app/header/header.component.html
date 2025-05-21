@@ -1,11 +1,43 @@
-<nav class="p-5 grid gap-y-5">
-  <a routerLink="/" class="font-rubik text-4xl text-center text-white">
-    Montflix Rebirth
-  </a>
-  <div
-    class="flex lg:justify-center px-4 sm:px-5 text-2xl whitespace-nowrap space-x-6 overflow-x-scroll scrollbar-hide gap-x-4"
+<nav
+  class="p-5 grid gap-y-2 fixed w-full top-0 z-50 mb-12 bg-gradient-to-r from-[#c94b4b] to-[#4b134f]"
+>
+  <button
+    (click)="navigateToGenre('trending')"
+    class="font-rubik text-4xl text-center text-white"
   >
-    @for (genre of genres(); track $index) {
+    Montflix Rebirth
+  </button>
+  <div class="flex items-center justify-center">
+    <div
+      class="flex items-center justify-center p-0.5 rounded bg-gray-100 space-x-0.5"
+    >
+      <button
+        class="flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md focus:outline-none cursor-pointer duration-500 ease-in-out transition-colors"
+        [ngClass]="{
+          'bg-red-500 shadow-sm hover:bg-red-600': type() === 'movie',
+          'text-black hover:text-red-500': type() !== 'movie',
+        }"
+        (click)="onChangeType('movie')"
+      >
+        Movies
+      </button>
+      <button
+        class="flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md focus:outline-none cursor-pointer duration-500 ease-in-out transition-colors"
+        [ngClass]="{
+          'bg-red-500 shadow-sm hover:bg-red-600': type() === 'tv shows',
+          'text-black hover:text-red-500': type() !== 'tv shows',
+        }"
+        (click)="onChangeType('tv shows')"
+      >
+        Tv Shows
+      </button>
+    </div>
+  </div>
+  <div
+    class="flex px-4 sm:px-5 text-lg sm:text-2xl whitespace-nowrap space-x-6 overflow-x-scroll scrollbar-hide gap-x-4"
+  >
+    @for (list of lists(); track $index) { @if (list.type ===type()) { @for
+    (genre of list.genres; track i; let i = $index) {
     <button
       class="cursor-pointer transition duration-100 transform hover:text-white active:text-red-500"
       (click)="navigateToGenre(genre.key)"
@@ -16,6 +48,6 @@
     >
       {{ genre.title }}
     </button>
-    }
+    } } }
   </div>
 </nav>

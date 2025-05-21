@@ -1,17 +1,33 @@
 <div
+<<<<<<< HEAD
   class="px-5 grid grid-cols-2 md:grid-cols-5 xl:grid-cols-6 gap-2 3xl:flex flex-wrap justify-center"
+=======
+  class="px-5 my-[10rem] grid grid-cols-2 md:grid-cols-5 xl:grid-cols-6 gap-2 3xl:flex flex-wrap justify-center"
+>>>>>>> ed767528aeaf9767577f8183ab5500ab581ce81a
 >
-  @for (poster of posters(); track $index) {
-  <button
-    class="p-2 group flex flex-col cursor-pointer transition duration-200 ease-in transform sm:scale-105 hover:z-50 my-4mx-2 rounded-xl"
+  @if (isLoadingPosters()) {
+  <p>Loading</p>
+  } @else { @for (poster of posters(); track $index) {
+  <a
+    [routerLink]="`${poster.title ? 'movie' : 'tv'}/${poster.id}`"
+    class="p-2 group flex flex-col cursor-pointer my-4mx-2 rounded-xl"
   >
     <img
-      [src]="`${imageBaseUrl}${poster.poster_path || poster.backdrop_path}`"
-      class="rounded-xl"
+      [srcset]="
+        poster.poster_path
+          ? imageBaseUrl + poster.poster_path
+          : poster.backdrop_path
+          ? imageBaseUrl + poster.backdrop_path
+          : loadingImageUrl
+      "
+      class="rounded-xl group-hover:scale-105 transition duration-200 ease-in transform"
       [alt]="`${poster.title || poster.name}`"
       [height]="1080"
       [width]="1920"
+      priority
+      [class.load]="isLoadingPosters()"
       fill
+      loading="lazy"
     />
     <div class="p-2">
       <h2 class="mt-1 text-sm text-white">
@@ -21,6 +37,6 @@
         {{ poster.release_date || poster.first_air_date }}
       </h3>
     </div>
-  </button>
-  }
+  </a>
+  } }
 </div>
