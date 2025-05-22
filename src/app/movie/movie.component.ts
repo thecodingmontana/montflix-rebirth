@@ -3,12 +3,13 @@ import { ApiService } from '../services/api.service';
 import { environment } from '../../environments/environment';
 import { BannerComponent } from '../banner/banner.component';
 import { Media } from '../types';
-import { InfoComponent } from "../info/info.component";
-import { SynopsisComponent } from "../synopsis/synopsis.component";
+import { InfoComponent } from '../info/info.component';
+import { SynopsisComponent } from '../synopsis/synopsis.component';
+import { CastsComponent } from '../casts/casts.component';
 
 @Component({
   selector: 'app-movie',
-  imports: [BannerComponent, InfoComponent, SynopsisComponent],
+  imports: [BannerComponent, InfoComponent, SynopsisComponent, CastsComponent],
   templateUrl: './movie.component.html',
   styleUrl: './movie.component.css',
 })
@@ -23,9 +24,7 @@ export class MovieComponent {
     this.movie_id = id;
   }
 
-  constructor(
-    private apiService: ApiService,
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     let url = `/movie/${this.movie_id}?api_key=${environment.tmdbApiKey}`;
