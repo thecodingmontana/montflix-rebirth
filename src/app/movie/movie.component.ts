@@ -6,10 +6,17 @@ import { Media } from '../types';
 import { InfoComponent } from '../info/info.component';
 import { SynopsisComponent } from '../synopsis/synopsis.component';
 import { CastsComponent } from '../casts/casts.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-movie',
-  imports: [BannerComponent, InfoComponent, SynopsisComponent, CastsComponent],
+  imports: [
+    BannerComponent,
+    InfoComponent,
+    SynopsisComponent,
+    CastsComponent,
+    CommonModule,
+  ],
   templateUrl: './movie.component.html',
   styleUrl: './movie.component.css',
 })
@@ -47,5 +54,9 @@ export class MovieComponent {
         this.isLoadingData.set(false);
       },
     });
+  }
+
+  onChangeToString(value: number): string {
+    return value.toString();
   }
 }
