@@ -1,7 +1,6 @@
 import { Component, Input, signal } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { environment } from '../../environments/environment';
-import { MonflixService } from '../state/monflix.service';
 import { BannerComponent } from '../banner/banner.component';
 import { Media } from '../types';
 
@@ -14,7 +13,8 @@ import { Media } from '../types';
 export class MovieComponent {
   API_KEY = environment.tmdbApiKey;
   movie_id: string = '';
-  info = signal<Media|null>(null)
+  info = signal<Media | null>(null);
+  isLoadingData = signal(false);
 
   @Input()
   set id(id: string) {
@@ -23,7 +23,6 @@ export class MovieComponent {
 
   constructor(
     private apiService: ApiService,
-    private montflixService: MonflixService
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +31,7 @@ export class MovieComponent {
   }
 
   onFetchData(url: string): void {
-    this.montflixService.onLoadingPosters(true);
+    this.isLoadingData.set(true);
     this.apiService.getData(url).subscribe({
       next: (data) => {
         console.log('Data fetched successfully!', data);
@@ -40,11 +39,11 @@ export class MovieComponent {
       },
       error: (error) => {
         console.error('Error fetching data:', error);
-        this.montflixService.onLoadingPosters(false);
+        this.isLoadingData.set(false);
       },
       complete: () => {
         console.log('Data fetching complete');
-        this.montflixService.onLoadingPosters(false);
+        this.isLoadingData.set(false);
       },
     });
   }

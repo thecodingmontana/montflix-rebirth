@@ -1,3 +1,7 @@
 <div>
-  <app-banner [mediaType]="'movie'" [media]="info()"></app-banner>
+  <app-banner
+    [mediaType]="'movie'"
+    [media]="info()"
+    [isLoadingData]="isLoadingData()"
+  ></app-banner>
 </div>
