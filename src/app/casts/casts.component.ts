@@ -8,10 +8,11 @@ import {
 } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { CastMember, CrewMember } from '../types';
+import { ScrollContainerComponent } from "../scroll-container/scroll-container.component";
 
 @Component({
   selector: 'app-casts',
-  imports: [LucideAngularModule, CommonModule],
+  imports: [LucideAngularModule, CommonModule, ScrollContainerComponent],
   templateUrl: './casts.component.html',
   styleUrl: './casts.component.css',
 })

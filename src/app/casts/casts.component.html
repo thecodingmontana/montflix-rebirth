@@ -3,160 +3,120 @@
     <h2 class="uppercase text-2xl font-bold text-balance font-secondary">
       Casts
     </h2>
-    <div class="relative">
-      <button
-        *ngIf="showLeft"
-        (click)="scroll('left')"
-        class="absolute left-0 top-1/2 z-30 -translate-y-1/2 px-2 py-10 bg-black/50 text-white rounded-full hover:bg-black"
-      >
-        <i-lucide [img]="ChevronLeftIcon"></i-lucide>
-      </button>
+    <app-scroll-container>
+      @for (cast of list().casts; track $index) {
       <div
-        #scrollContainer
-        class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
-        (scroll)="onScroll()"
+        class="flex-shrink-0 snap-start"
+        style="width: 209.688px; margin-right: 10px"
       >
-        @for (cast of list().casts; track $index) {
-        <div
-          class="flex-shrink-0 snap-start"
-          style="width: 209.688px; margin-right: 10px"
-        >
-          <div>
-            <a
-              href="/person/135651"
-              class="bg-slate-200 dark:bg-slate-900 dark:text-slate-50"
+        <div>
+          <a
+            href="/person/135651"
+            class="bg-slate-200 dark:bg-slate-900 dark:text-slate-50"
+          >
+            <div
+              class="overflow-hidden relative group rounded-lg sm:rounded-xl"
             >
               <div
-                class="overflow-hidden relative group rounded-lg sm:rounded-xl"
+                class="absolute flex flex-col justify-end w-full h-full z-20 text-light"
               >
                 <div
-                  class="absolute flex flex-col justify-end w-full h-full z-20 text-light"
+                  class="font-secondary text-center px-4 font-bold transition-all text-sm sm:text-base"
                 >
-                  <div
-                    class="font-secondary text-center px-4 font-bold transition-all text-sm sm:text-base"
-                  >
-                    {{ cast.name || cast.original_name }}
-                  </div>
-                  <div
-                    class="font-secondary text-center pb-4 font-medium transition-all text-xs opacity-50"
-                  >
-                    {{ cast.character }}
-                  </div>
+                  {{ cast.name || cast.original_name }}
                 </div>
                 <div
-                  class="bg-gradient-to-t from-[#4b134f] to-transparent absolute z-10 w-full h-full hover:opacity-0"
-                ></div>
-                <div
-                  class="bg-gradient-to-tr from-orange-600 to-orange-400 absolute z-10 w-full h-full opacity-0 group-hover:opacity-50 transition-all duration-500 ease-out"
-                ></div>
-                @if (cast.profile_path) {
-                <img
-                  class="object-cover object-center w-full h-36 sm:h-48 group-hover:scale-105 transition-all duration-200"
-                  [srcset]="`${imageUrl}${cast.profile_path}`"
-                  [alt]="cast.name || cast.original_name"
-                  loading="lazy"
-                />
-                } @else {
-                <img
-                  class="object-cover object-center w-full h-36 sm:h-48 group-hover:scale-105 transition-all duration-200"
-                  [srcset]="defaultImageUrl"
-                  [alt]="cast.name || cast.original_name"
-                  loading="lazy"
-                />
-                }
+                  class="font-secondary text-center pb-4 font-medium transition-all text-xs opacity-50"
+                >
+                  {{ cast.character }}
+                </div>
               </div>
-            </a>
-          </div>
+              <div
+                class="bg-gradient-to-t from-[#4b134f] to-transparent absolute z-10 w-full h-full hover:opacity-0"
+              ></div>
+              <div
+                class="bg-gradient-to-tr from-orange-600 to-orange-400 absolute z-10 w-full h-full opacity-0 group-hover:opacity-50 transition-all duration-500 ease-out"
+              ></div>
+              @if (cast.profile_path) {
+              <img
+                class="object-cover object-center w-full h-36 sm:h-48 group-hover:scale-105 transition-all duration-200"
+                [srcset]="`${imageUrl}${cast.profile_path}`"
+                [alt]="cast.name || cast.original_name"
+                loading="lazy"
+              />
+              } @else {
+              <img
+                class="object-cover object-center w-full h-36 sm:h-48 group-hover:scale-105 transition-all duration-200"
+                [srcset]="defaultImageUrl"
+                [alt]="cast.name || cast.original_name"
+                loading="lazy"
+              />
+              }
+            </div>
+          </a>
         </div>
-        }
       </div>
-      <button
-        *ngIf="showRight"
-        (click)="scroll('right')"
-        class="absolute right-0 top-1/2 z-30 -translate-y-1/2 px-2 py-10 bg-black/50 text-white rounded-full hover:bg-black"
-      >
-        <i-lucide [img]="ChevronRightIcon"></i-lucide>
-      </button>
-    </div>
+      }
+    </app-scroll-container>
   </div>
   <div class="flex flex-col space-y-2">
     <h2 class="uppercase text-2xl font-bold text-balance font-secondary">
       Crew Members
     </h2>
-    <div class="relative">
-      <button
-        *ngIf="showLeft"
-        (click)="scroll('left')"
-        class="absolute left-0 top-1/2 z-30 -translate-y-1/2 px-2 py-10 bg-black/50 text-white rounded-full hover:bg-black"
-      >
-        <i-lucide [img]="ChevronLeftIcon"></i-lucide>
-      </button>
+    <app-scroll-container>
+      @for (crew of list().crews; track $index) {
       <div
-        #scrollContainer
-        class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
-        (scroll)="onScroll()"
+        class="flex-shrink-0 snap-start"
+        style="width: 209.688px; margin-right: 10px"
       >
-        @for (crew of list().crews; track $index) {
-        <div
-          class="flex-shrink-0 snap-start"
-          style="width: 209.688px; margin-right: 10px"
-        >
-          <div>
-            <a
-              href="/person/135651"
-              class="bg-slate-200 dark:bg-slate-900 dark:text-slate-50"
+        <div>
+          <a
+            href="/person/135651"
+            class="bg-slate-200 dark:bg-slate-900 dark:text-slate-50"
+          >
+            <div
+              class="overflow-hidden relative group rounded-lg sm:rounded-xl"
             >
               <div
-                class="overflow-hidden relative group rounded-lg sm:rounded-xl"
+                class="absolute flex flex-col justify-end w-full h-full z-20 text-light"
               >
                 <div
-                  class="absolute flex flex-col justify-end w-full h-full z-20 text-light"
+                  class="font-secondary text-center px-4 font-bold transition-all text-sm sm:text-base"
                 >
-                  <div
-                    class="font-secondary text-center px-4 font-bold transition-all text-sm sm:text-base"
-                  >
-                    {{ crew.name || crew.original_name }}
-                  </div>
-                  <div
-                    class="font-secondary text-center pb-4 font-medium transition-all text-xs opacity-50"
-                  >
-                    {{ crew.department }}
-                  </div>
+                  {{ crew.name || crew.original_name }}
                 </div>
                 <div
-                  class="bg-gradient-to-t from-[#4b134f] to-transparent absolute z-10 w-full h-full hover:opacity-0"
-                ></div>
-                <div
-                  class="bg-gradient-to-tr from-orange-600 to-orange-400 absolute z-10 w-full h-full opacity-0 group-hover:opacity-50 transition-all duration-500 ease-out"
-                ></div>
-                @if (crew.profile_path) {
-                <img
-                  class="object-cover object-center w-full h-36 sm:h-48 group-hover:scale-105 transition-all duration-200"
-                  [srcset]="`${imageUrl}${crew.profile_path}`"
-                  [alt]="crew.name || crew.original_name"
-                  loading="lazy"
-                />
-                } @else {
-                <img
-                  class="object-cover object-center w-full h-36 sm:h-48 group-hover:scale-105 transition-all duration-200"
-                  [srcset]="defaultImageUrl"
-                  [alt]="crew.name || crew.original_name"
-                  loading="lazy"
-                />
-                }
+                  class="font-secondary text-center pb-4 font-medium transition-all text-xs opacity-50"
+                >
+                  {{ crew.department }}
+                </div>
               </div>
-            </a>
-          </div>
+              <div
+                class="bg-gradient-to-t from-[#4b134f] to-transparent absolute z-10 w-full h-full hover:opacity-0"
+              ></div>
+              <div
+                class="bg-gradient-to-tr from-orange-600 to-orange-400 absolute z-10 w-full h-full opacity-0 group-hover:opacity-50 transition-all duration-500 ease-out"
+              ></div>
+              @if (crew.profile_path) {
+              <img
+                class="object-cover object-center w-full h-36 sm:h-48 group-hover:scale-105 transition-all duration-200"
+                [srcset]="`${imageUrl}${crew.profile_path}`"
+                [alt]="crew.name || crew.original_name"
+                loading="lazy"
+              />
+              } @else {
+              <img
+                class="object-cover object-center w-full h-36 sm:h-48 group-hover:scale-105 transition-all duration-200"
+                [srcset]="defaultImageUrl"
+                [alt]="crew.name || crew.original_name"
+                loading="lazy"
+              />
+              }
+            </div>
+          </a>
         </div>
-        }
       </div>
-      <button
-        *ngIf="showRight"
-        (click)="scroll('right')"
-        class="absolute right-0 top-1/2 z-10 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black"
-      >
-        <i-lucide [img]="ChevronRightIcon"></i-lucide>
-      </button>
-    </div>
+      }
+    </app-scroll-container>
   </div>
 </div>

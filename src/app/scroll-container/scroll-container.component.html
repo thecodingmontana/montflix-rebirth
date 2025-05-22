@@ -1,0 +1,23 @@
+<div class="relative">
+  <button
+    *ngIf="showLeft"
+    (click)="scroll('left')"
+    class="absolute left-0 top-1/2 z-30 -translate-y-1/2 px-2 py-10 bg-black/50 text-white rounded-full hover:bg-black"
+  >
+    <i-lucide [img]="ChevronLeftIcon"></i-lucide>
+  </button>
+  <div
+    #scrollContainer
+    class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
+    (scroll)="onScroll()"
+  >
+    <ng-content></ng-content>
+  </div>
+  <button
+    *ngIf="showRight"
+    (click)="scroll('right')"
+    class="absolute right-0 top-1/2 z-30 -translate-y-1/2 px-2 py-10 bg-black/50 text-white rounded-full hover:bg-black"
+  >
+    <i-lucide [img]="ChevronRightIcon"></i-lucide>
+  </button>
+</div>
