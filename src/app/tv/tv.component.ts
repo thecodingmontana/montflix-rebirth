@@ -3,10 +3,12 @@ import { ApiService } from '../services/api.service';
 import { environment } from '../../environments/environment';
 import { BannerComponent } from '../banner/banner.component';
 import { Media } from '../types';
+import { SynopsisComponent } from "../synopsis/synopsis.component";
+import { InfoComponent } from "../info/info.component";
 
 @Component({
   selector: 'app-tv',
-  imports: [BannerComponent],
+  imports: [BannerComponent, SynopsisComponent, InfoComponent],
   templateUrl: './tv.component.html',
   styleUrl: './tv.component.css',
 })

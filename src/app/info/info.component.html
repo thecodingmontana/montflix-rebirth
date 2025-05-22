@@ -1,0 +1,147 @@
+<div class="p-5 flex flex-col space-y-2">
+  <h2
+    *ngIf="mediaType"
+    class="uppercase text-2xl font-bold text-balance font-secondary"
+  >
+    {{ mediaType === "movie" ? "About the Movie" : "About the TV Show" }}
+  </h2>
+  <div *ngIf="media" class="grid gap-3">
+    <div>
+      <h3 class="uppercase font-semibold text-base">
+        Original {{ mediaType === "movie" ? "title" : "name" }}
+      </h3>
+      <p class="text-sm">
+        {{ mediaType === "movie" ? media.original_title : media.original_name }}
+      </p>
+    </div>
+
+    <div *ngIf="media.status">
+      <h3 class="uppercase font-semibold text-base">Status</h3>
+      <p class="text-sm">
+        {{ media.status }}
+      </p>
+    </div>
+
+    <div *ngIf="media.genres && media.genres.length > 0">
+      <h3 class="uppercase font-semibold text-base">
+        {{ media.genres.length > 1 ? "Genres" : "Genre" }}
+      </h3>
+      <p class="text-sm">
+        @for (genre of media.genres; track $index) {
+        <span>
+          {{ genre.name }}
+        </span>
+        @if (genre.name !== media.genres[media.genres.length - 1].name) {
+        <span class="text-gray-400">,</span>
+        } }
+      </p>
+    </div>
+
+    <div *ngIf="media.origin_country && media.origin_country.length > 0">
+      <h3 class="uppercase font-semibold text-base">
+        Origin {{ media.origin_country.length > 1 ? "Countries" : "Country" }}
+      </h3>
+      <p class="text-sm">
+        @for (country of media.origin_country; track $index) {
+        <span>
+          {{ country }}
+        </span>
+        @if (country !== media.origin_country[media.origin_country.length - 1])
+        {
+        <span class="text-gray-400">,</span>
+        } }
+      </p>
+    </div>
+
+    <div *ngIf="media.spoken_languages && media.spoken_languages.length > 0">
+      <h3 class="uppercase font-semibold text-base">
+        Spoken
+        {{ media.spoken_languages.length > 1 ? "Languages" : "Language" }}
+      </h3>
+      <p class="text-sm">
+        @for (lang of media.spoken_languages; track $index) {
+        <span>
+          {{ lang.english_name }}
+        </span>
+        @if (lang.english_name !==
+        media.spoken_languages[media.spoken_languages.length - 1].english_name)
+        {
+        <span class="text-gray-400">,</span>
+        } }
+      </p>
+    </div>
+
+    <div *ngIf="media.budget">
+      <h3 class="uppercase font-semibold text-base">Budget</h3>
+      <p class="text-sm">
+        {{ media.budget | currency : "USD" : "symbol" }}
+      </p>
+    </div>
+
+    <div *ngIf="media.revenue">
+      <h3 class="uppercase font-semibold text-base">Revenue</h3>
+      <p class="text-sm">
+        {{ media.revenue | currency : "USD" : "symbol" }}
+      </p>
+    </div>
+
+    <div
+      *ngIf="mediaType === 'tv' && media.created_by.length > 0"
+      class="space-y-1"
+    >
+      <h3 class="uppercase font-semibold text-base">Created By</h3>
+      <div class="flex items-center flex-wrap gap-2">
+        @for (avatar of media.created_by; track $index) {
+        <div class="flex flex-col items-center">
+          <img
+            *ngIf="avatar.profile_path"
+            [src]="`${imageUrl}${avatar.profile_path}`"
+            [alt]="avatar.name || avatar.original_name"
+            class="w-10 h-10 rounded-full object-cover"
+            [attr.aria-label]="avatar.name || avatar.original_name"
+            loading="lazy"
+          />
+          <p class="text-xs">
+            {{ avatar.name }}
+          </p>
+        </div>
+        }
+      </div>
+      <p class="text-sm">
+        {{ media.revenue | currency : "USD" : "symbol" }}
+      </p>
+    </div>
+    <div
+      *ngIf="
+        media.production_companies && media.production_companies.length > 0
+      "
+      class="space-y-1"
+    >
+      <h3 class="uppercase font-semibold text-base">
+        {{
+          media.production_companies.length > 1
+            ? "Production Companies"
+            : "Production Company"
+        }}
+      </h3>
+      <div class="flex items-center flex-wrap gap-2">
+        @for (company of media.production_companies; track $index) {
+        <div class="flex flex-col items-center">
+          <img
+            *ngIf="company.logo_path"
+            [src]="`${imageUrl}${company.logo_path}`"
+            [alt]="company.name"
+            [title]="company.name"
+            [attr.aria-label]="company.name"
+            class="w-14 h-auto rounded-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        }
+      </div>
+      <p class="text-sm">
+        {{ media.revenue | currency : "USD" : "symbol" }}
+      </p>
+    </div>
+  </div>
+</div>
