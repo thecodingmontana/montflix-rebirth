@@ -22,6 +22,13 @@
       </p>
     </div>
 
+    <div *ngIf="mediaType === 'movie' && media.runtime">
+      <h3 class="uppercase font-semibold text-base">Runtime</h3>
+      <p class="text-sm">
+        {{ getDurationString(media.runtime) }}
+      </p>
+    </div>
+
     <div *ngIf="media.genres && media.genres.length > 0">
       <h3 class="uppercase font-semibold text-base">
         {{ media.genres.length > 1 ? "Genres" : "Genre" }}
@@ -101,7 +108,7 @@
             [attr.aria-label]="avatar.name || avatar.original_name"
             loading="lazy"
           />
-          <p class="text-xs">
+          <p *ngIf="avatar.profile_path" class="text-xs">
             {{ avatar.name }}
           </p>
         </div>
@@ -136,6 +143,18 @@
         </div>
         }
       </div>
+    </div>
+
+    <div *ngIf="media.homepage">
+      <h3 class="uppercase font-semibold text-base">homepage</h3>
+      <a
+        [href]="media.homepage"
+        target="_blank"
+        class="underline flex items-center gap-2 font-medium"
+      >
+        <lucide-icon [img]="GlobeIcon" class="size-5"></lucide-icon>
+        <p class="text-sm capitalize">Visit homepage</p>
+      </a>
     </div>
   </div>
 </div>
