@@ -24,9 +24,12 @@
 
     <div *ngIf="mediaType === 'movie' && media.runtime">
       <h3 class="uppercase font-semibold text-base">Runtime</h3>
-      <p class="text-sm">
-        {{ getDurationString(media.runtime) }}
-      </p>
+      <div class="text-sm flex items-center gap-1">
+        <lucide-icon [img]="ClockIcon" class="size-5"></lucide-icon>
+        <p>
+          {{ getDurationString(media.runtime) }}
+        </p>
+      </div>
     </div>
 
     <div *ngIf="media.genres && media.genres.length > 0">

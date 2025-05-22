@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Media } from '../types';
-import { LucideAngularModule, GlobeIcon } from 'lucide-angular';
+import { LucideAngularModule, GlobeIcon, ClockIcon } from 'lucide-angular';
 
 @Component({
   selector: 'app-info',
@@ -12,6 +12,7 @@ import { LucideAngularModule, GlobeIcon } from 'lucide-angular';
 export class InfoComponent {
   imageUrl = 'https://image.tmdb.org/t/p/original/';
   readonly GlobeIcon = GlobeIcon;
+  readonly ClockIcon = ClockIcon;
 
   @Input() mediaType: 'movie' | 'tv' = 'movie';
   @Input() media: Media | null = null;
