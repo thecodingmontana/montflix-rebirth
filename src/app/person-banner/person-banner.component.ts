@@ -1,6 +1,4 @@
 import { Component, Input, signal } from '@angular/core';
-import { ApiService } from '../services/api.service';
-import { environment } from '../../environments/environment';
 import { LucideAngularModule, ChevronsLeftIcon } from 'lucide-angular';
 import { CommonModule, Location } from '@angular/common';
 import { PersonDetail } from '../types';
@@ -12,43 +10,19 @@ import { PersonDetail } from '../types';
   styleUrl: './person-banner.component.css',
 })
 export class PersonBannerComponent {
-  API_KEY = environment.tmdbApiKey;
   imageUrl = 'https://image.tmdb.org/t/p/original/';
-  defaultImageUrl = 'assets/images/mesh.png';
-  isLoadingData = signal<boolean>(false);
-  details = signal<PersonDetail | null>(null);
+  defaultImageUrl = 'assets/images/mesh.png'
 
   readonly ChevronsLeftIcon = ChevronsLeftIcon;
 
   @Input() person_id: string = '';
+  @Input() isLoadingData: boolean = false;
+  @Input() person: PersonDetail | null = null;
 
-  constructor(private apiService: ApiService, private location: Location) {}
-
-  ngOnInit(): void {
-    let url = `/person/${this.person_id}?api_key=${environment.tmdbApiKey}&language=en-US`;
-    this.onFetchData(url);
-  }
+  constructor(private location: Location) {}
 
   onGoBack() {
     this.location.back();
-  }
-
-  onFetchData(url: string): void {
-    this.isLoadingData.set(true);
-    this.apiService.getData(url).subscribe({
-      next: (data) => {
-        console.log('Data fetched successfully!', data);
-        this.details.set(data as PersonDetail);
-      },
-      error: (error) => {
-        console.error('Error fetching data:', error);
-        this.isLoadingData.set(false);
-      },
-      complete: () => {
-        console.log('Data fetching complete');
-        this.isLoadingData.set(false);
-      },
-    });
   }
 
   getAge(birthday: string | Date): number {

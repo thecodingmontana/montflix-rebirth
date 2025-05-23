@@ -1,4 +1,4 @@
-@if (isLoadingData()) {
+@if (isLoadingData) {
 <div class="container mx-auto flex flex-col space-y-3">
   <button (click)="onGoBack()" class="flex items-center gap-x-1cursor-pointer">
     <lucide-angular [img]="ChevronsLeftIcon" class="my-icon"></lucide-angular>
@@ -10,6 +10,7 @@
         [srcset]="defaultImageUrl"
         [alt]="'loading...'"
         class="object-cover w-full h-full rounded-xl animate-pulse"
+        loading="lazy"
       />
     </div>
     <div class="self-start w-full space-y-3">
@@ -38,52 +39,60 @@
 </div>
 } @else {
 <div class="container mx-auto flex flex-col space-y-3">
-  <button (click)="onGoBack()" class="flex items-center gap-x-1cursor-pointer">
+  <button (click)="onGoBack()" class="flex items-center gap-x-1 cursor-pointer">
     <lucide-angular [img]="ChevronsLeftIcon" class="my-icon"></lucide-angular>
     Go Back
   </button>
 
-  <div class="flex items-center gap-5">
-    <div class="h-[17rem] w-[12.5rem] flex-shrink-0 self-start">
+  <div class="flex flex-col md:flex-row md:items-center gap-5">
+    <div class="h-[20rem] md:h-[17rem] w-full md:w-[12.5rem] flex-shrink-0 self-start">
       <img
         [srcset]="
-          details()?.profile_path ? `${imageUrl}${details()?.profile_path}` : defaultImageUrl
+          person?.profile_path ? `${imageUrl}${person?.profile_path}` : defaultImageUrl
         "
-        [alt]="details()?.name"
+        [alt]="person?.name"
         class="object-cover w-full h-full rounded-xl"
+        loading="lazy"
       />
     </div>
     <div class="self-start flex flex-col gap-y-2">
       <div
-        *ngIf="details()"
+        *ngIf="person"
         class="text-xl sm:text-3xl font-secondary font-bold text-balance transition-all"
       >
-        {{ details()?.name }}
+        {{ person.name }}
       </div>
-      <div *ngIf="details()">
+      <div *ngIf="person">
         <h3 class="uppercase font-semibold text-base">Biography</h3>
         <p class="text-sm">
-          {{ details()?.biography || "Unknown 😞" }}
+          {{ person.biography || "Unknown 😞" }}
         </p>
       </div>
-      <div *ngIf="details()">
+      <div *ngIf="person">
         <h3 class="uppercase font-semibold text-base">Birthday</h3>
-        @if (details()?.birthday) {
+        @if (person.birthday) {
         <p class="text-sm">
-          {{ details()?.birthday | date : "longDate" }} |
-          {{ getAge(details()?.birthday!) }}yrs old
+          {{ person.birthday | date : "longDate" }} |
+          {{ getAge(person.birthday!) }} yrs old
         </p>
         } @else {
         <p class="text-sm">Unknown 😞</p>
         }
       </div>
-      <div *ngIf="details()">
+      <div *ngIf="person">
         <h3 class="uppercase font-semibold text-base">Deathday</h3>
+        @if (person.deathday) {
         <p class="text-sm">
-          {{ details()?.deathday || "Still kicking 😉 / Probably dead 😭😂" }}
+          {{ person.deathday | date : "longDate" }} |
+          Died {{ getAge(person.deathday!) }} yrs ago
         </p>
-        <p *ngIf="!details()?.deathday">
-          <span class="italic text-xs text-gray-300">No death date found for this person.</span>
+        } @else {
+        <p class="text-sm">Still kicking 😉 / Probably dead 😭😂</p>
+        }
+        <p *ngIf="!person.deathday">
+          <span class="italic text-xs text-gray-300"
+            >No death date found for this person.</span
+          >
         </p>
       </div>
     </div>

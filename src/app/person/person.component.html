@@ -1,5 +1,19 @@
 <div>
   <div class="bg-[#4b134f] p-5">
-    <app-person-banner [person_id]="person_id"></app-person-banner>
+    <app-person-banner
+      [person_id]="person_id"
+      [person]="details()"
+      [isLoadingData]="isLoadingData()"
+    ></app-person-banner>
+  </div>
+  <div class="container mx-auto p-5">
+    <app-person-movie-credits
+      [isLoadingData]="isLoadingData()"
+      [name]="details()?.name!"
+    ></app-person-movie-credits>
+    <app-person-tv-credits
+      [isLoadingData]="isLoadingData()"
+      [name]="details()?.name!"
+    ></app-person-tv-credits>
   </div>
 </div>
