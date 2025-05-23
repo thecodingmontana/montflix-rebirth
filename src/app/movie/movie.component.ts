@@ -7,6 +7,8 @@ import { InfoComponent } from '../info/info.component';
 import { SynopsisComponent } from '../synopsis/synopsis.component';
 import { CastsComponent } from '../casts/casts.component';
 import { CommonModule } from '@angular/common';
+import { RecommendationsComponent } from '../recommendations/recommendations.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-movie',
@@ -16,6 +18,7 @@ import { CommonModule } from '@angular/common';
     SynopsisComponent,
     CastsComponent,
     CommonModule,
+    RecommendationsComponent,
   ],
   templateUrl: './movie.component.html',
   styleUrl: './movie.component.css',
@@ -31,11 +34,20 @@ export class MovieComponent {
     this.movie_id = id;
   }
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private activeRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     let url = `/movie/${this.movie_id}?api_key=${environment.tmdbApiKey}`;
     this.onFetchData(url);
+
+    this.activeRoute.params.subscribe((params) => {
+      let _id = params['id'];
+      let url = `/movie/${_id}?api_key=${environment.tmdbApiKey}`;
+      this.onFetchData(url);
+    });
   }
 
   onFetchData(url: string): void {

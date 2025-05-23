@@ -1,31 +1,25 @@
-import { Component, ElementRef, Input, signal, ViewChild } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ApiService } from '../services/api.service';
-import { CommonModule } from '@angular/common';
-import { CastMember, CrewMember } from '../types';
+import { Poster } from '../types';
+import { format } from 'date-fns';
 import { ScrollContainerComponent } from '../scroll-container/scroll-container.component';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-casts',
-  imports: [CommonModule, ScrollContainerComponent, RouterLink],
-  templateUrl: './casts.component.html',
-  styleUrl: './casts.component.css',
-  standalone: true,
+  selector: 'app-recommendations',
+  imports: [ScrollContainerComponent, CommonModule, RouterLink],
+  templateUrl: './recommendations.component.html',
+  styleUrl: './recommendations.component.css',
 })
-export class CastsComponent {
+export class RecommendationsComponent {
   API_KEY = environment.tmdbApiKey;
   imageUrl = 'https://image.tmdb.org/t/p/original/';
   defaultImageUrl = 'assets/images/mesh.png';
 
   isLoadingData = signal(false);
-  list = signal<{
-    casts: CastMember[];
-    crews: CrewMember[];
-  }>({
-    casts: [],
-    crews: [],
-  });
+  recommendations = signal<Poster[] | null>(null);
 
   @Input() mediaType: 'tv' | 'movie' = 'movie';
   @Input() mediaId: string = '';
@@ -36,12 +30,12 @@ export class CastsComponent {
   ) {}
 
   ngOnInit(): void {
-    let url = `/${this.mediaType}/${this.mediaId}/credits?api_key=${environment.tmdbApiKey}&language=en-US&page=1`;
+    let url = `/${this.mediaType}/${this.mediaId}/recommendations?api_key=${environment.tmdbApiKey}&language=en-US&page=1`;
     this.onFetchData(url);
 
     this.activeRoute.params.subscribe((params) => {
       let _id = params['id'];
-      let url = `/${this.mediaType}/${_id}/credits?api_key=${environment.tmdbApiKey}&language=en-US&page=1`;
+      let url = `/${this.mediaType}/${_id}/recommendations?api_key=${environment.tmdbApiKey}&language=en-US&page=1`;
       this.onFetchData(url);
     });
   }
@@ -50,24 +44,21 @@ export class CastsComponent {
     this.isLoadingData.set(true);
     this.apiService.getData(url).subscribe({
       next: (data) => {
-        console.log('Data fetched successfully!', data);
-        let casts: {
-          casts: CastMember[];
-          crews: CrewMember[];
-        } = {
-          casts: data.cast,
-          crews: data.crew,
-        };
-        this.list.set(casts);
+        console.log('Recommendations fetched successfully!', data);
+        this.recommendations.set(data.results as Poster[]);
       },
       error: (error) => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching recommendations:', error);
         this.isLoadingData.set(false);
       },
       complete: () => {
-        console.log('Data fetching complete');
+        console.log('Recommendations fetching complete');
         this.isLoadingData.set(false);
       },
     });
+  }
+
+  onFormatReleaseDate(date: string) {
+    return format(new Date(date), 'PPP');
   }
 }
