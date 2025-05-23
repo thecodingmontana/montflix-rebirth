@@ -3,12 +3,20 @@ import { ApiService } from '../services/api.service';
 import { environment } from '../../environments/environment';
 import { BannerComponent } from '../banner/banner.component';
 import { Media } from '../types';
-import { SynopsisComponent } from "../synopsis/synopsis.component";
-import { InfoComponent } from "../info/info.component";
+import { SynopsisComponent } from '../synopsis/synopsis.component';
+import { InfoComponent } from '../info/info.component';
+import { CastsComponent } from '../casts/casts.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tv',
-  imports: [BannerComponent, SynopsisComponent, InfoComponent],
+  imports: [
+    BannerComponent,
+    SynopsisComponent,
+    InfoComponent,
+    CastsComponent,
+    CommonModule,
+  ],
   templateUrl: './tv.component.html',
   styleUrl: './tv.component.css',
 })
@@ -24,9 +32,7 @@ export class TvComponent {
     this.tv_id = id;
   }
 
-  constructor(
-    private apiService: ApiService,
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     let url = `/tv/${this.tv_id}?api_key=${environment.tmdbApiKey}`;
@@ -49,5 +55,9 @@ export class TvComponent {
         this.isLoadingData.set(false);
       },
     });
+  }
+
+  onChangeToString(value: number): string {
+    return value.toString();
   }
 }

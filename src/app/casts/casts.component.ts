@@ -1,24 +1,18 @@
 import { Component, ElementRef, Input, signal, ViewChild } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ApiService } from '../services/api.service';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  LucideAngularModule,
-} from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { CastMember, CrewMember } from '../types';
-import { ScrollContainerComponent } from "../scroll-container/scroll-container.component";
+import { ScrollContainerComponent } from '../scroll-container/scroll-container.component';
 
 @Component({
   selector: 'app-casts',
-  imports: [LucideAngularModule, CommonModule, ScrollContainerComponent],
+  imports: [CommonModule, ScrollContainerComponent],
   templateUrl: './casts.component.html',
   styleUrl: './casts.component.css',
+  standalone: true,
 })
 export class CastsComponent {
-  @ViewChild('scrollContainer', { static: true }) scrollContainer!: ElementRef;
-
   API_KEY = environment.tmdbApiKey;
   imageUrl = 'https://image.tmdb.org/t/p/original/';
   defaultImageUrl = 'assets/images/mesh.png';
@@ -34,64 +28,6 @@ export class CastsComponent {
 
   @Input() mediaType: 'tv' | 'movie' = 'movie';
   @Input() mediaId: string = '';
-
-  readonly ChevronLeftIcon = ChevronLeftIcon;
-  readonly ChevronRightIcon = ChevronRightIcon;
-
-  showLeft = false;
-  showRight = false;
-
-  episodes = [
-    {
-      title: '1. Reunion',
-      description: 'After a chance meeting at a party, Justin and Kesha...',
-      duration: '52m',
-      image: 'https://image.tmdb.org/t/p/w500/hz9AOUWZ2zzS0dpPJ1yQv2grA35.jpg',
-    },
-    {
-      title: '2. Ghosted',
-      description: 'Justin loses phone privileges, complicating...',
-      duration: '49m',
-      image: 'https://image.tmdb.org/t/p/w500/hz9AOUWZ2zzS0dpPJ1yQv2grA35.jpg',
-    },
-    {
-      title: '2. Ghosted',
-      description: 'Justin loses phone privileges, complicating...',
-      duration: '49m',
-      image: 'https://image.tmdb.org/t/p/w500/hz9AOUWZ2zzS0dpPJ1yQv2grA35.jpg',
-    },
-    {
-      title: '2. Ghosted',
-      description: 'Justin loses phone privileges, complicating...',
-      duration: '49m',
-      image: 'https://image.tmdb.org/t/p/w500/hz9AOUWZ2zzS0dpPJ1yQv2grA35.jpg',
-    },
-    {
-      title: '2. Ghosted',
-      description: 'Justin loses phone privileges, complicating...',
-      duration: '49m',
-      image: 'https://image.tmdb.org/t/p/w500/hz9AOUWZ2zzS0dpPJ1yQv2grA35.jpg',
-    },
-    {
-      title: '2. Ghosted',
-      description: 'Justin loses phone privileges, complicating...',
-      duration: '49m',
-      image: 'https://image.tmdb.org/t/p/w500/hz9AOUWZ2zzS0dpPJ1yQv2grA35.jpg',
-    },
-    {
-      title: '2. Ghosted',
-      description: 'Justin loses phone privileges, complicating...',
-      duration: '49m',
-      image: 'https://image.tmdb.org/t/p/w500/hz9AOUWZ2zzS0dpPJ1yQv2grA35.jpg',
-    },
-    {
-      title: '2. Ghosted',
-      description: 'Justin loses phone privileges, complicating...',
-      duration: '49m',
-      image: 'https://image.tmdb.org/t/p/w500/hz9AOUWZ2zzS0dpPJ1yQv2grA35.jpg',
-    },
-    // ...more episodes
-  ];
 
   constructor(private apiService: ApiService) {}
 
@@ -123,29 +59,5 @@ export class CastsComponent {
         this.isLoadingData.set(false);
       },
     });
-  }
-
-  ngAfterViewInit() {
-    this.updateChevronVisibility();
-  }
-
-  scroll(direction: 'left' | 'right') {
-    const container = this.scrollContainer.nativeElement;
-    const scrollAmount = 300;
-    container.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth',
-    });
-    setTimeout(() => this.updateChevronVisibility(), 300);
-  }
-
-  onScroll() {
-    this.updateChevronVisibility();
-  }
-
-  updateChevronVisibility() {
-    const el = this.scrollContainer.nativeElement;
-    this.showLeft = el.scrollLeft > 5;
-    this.showRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
   }
 }

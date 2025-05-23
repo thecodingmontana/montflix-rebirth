@@ -4,10 +4,20 @@
     [media]="info()"
     [isLoadingData]="isLoadingData()"
   ></app-banner>
-  <div class="flex flex-col-reverse md:grid md:grid-cols-5 xl:grid-cols-6 sm:gap-10 sm:p-5">
-    <div class="md:col-span-3 xl:col-span-4">
+  <div
+    class="flex flex-col-reverse md:grid md:grid-cols-5 xl:grid-cols-6 sm:gap-10 sm:p-5"
+  >
+    <div *ngIf="info()" class="md:col-span-3 xl:col-span-4">
       <app-synopsis [synopsis]="info()?.overview!"></app-synopsis>
+      <app-casts
+        [mediaId]="onChangeToString(info()?.id!)"
+        [mediaType]="'tv'"
+      ></app-casts>
     </div>
-    <app-info [mediaType]="'tv'" [media]="info()" class="md:col-span-2"></app-info>
+    <app-info
+      [mediaType]="'tv'"
+      [media]="info()"
+      class="md:col-span-2"
+    ></app-info>
   </div>
 </div>
