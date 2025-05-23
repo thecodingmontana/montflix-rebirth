@@ -191,4 +191,8 @@ export interface PersonCast {
   character: string;
   credit_id: string;
   order: number;
+  original_name: string
+  name: string
+  first_credit_air_date: string
+  first_air_date: string
 }

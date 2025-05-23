@@ -104,14 +104,13 @@
         @for (avatar of media.created_by; track $index) {
         <div class="flex flex-col items-center">
           <img
-            *ngIf="avatar.profile_path"
-            [src]="`${imageUrl}${avatar.profile_path}`"
+            [srcset]="avatar.profile_path ? `${imageUrl}${avatar.profile_path}` : defaultImageUrl"
             [alt]="avatar.name || avatar.original_name"
             class="w-10 h-10 rounded-full object-cover"
             [attr.aria-label]="avatar.name || avatar.original_name"
             loading="lazy"
           />
-          <p *ngIf="avatar.profile_path" class="text-xs">
+          <p class="text-xs">
             {{ avatar.name }}
           </p>
         </div>
@@ -135,8 +134,7 @@
         @for (company of media.production_companies; track $index) {
         <div class="flex flex-col items-center">
           <img
-            *ngIf="company.logo_path"
-            [src]="`${imageUrl}${company.logo_path}`"
+            [srcset]="company.logo_path ? `${imageUrl}${company.logo_path}` :defaultImageUrl"
             [alt]="company.name"
             [title]="company.name"
             [attr.aria-label]="company.name"

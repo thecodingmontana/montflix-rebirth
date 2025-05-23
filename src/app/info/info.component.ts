@@ -11,6 +11,7 @@ import { LucideAngularModule, GlobeIcon, ClockIcon } from 'lucide-angular';
 })
 export class InfoComponent {
   imageUrl = 'https://image.tmdb.org/t/p/original/';
+  defaultImageUrl = 'assets/images/mesh.png';
   readonly GlobeIcon = GlobeIcon;
   readonly ClockIcon = ClockIcon;
 
