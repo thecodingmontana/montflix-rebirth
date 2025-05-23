@@ -15,4 +15,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./movie/movie.component').then((m) => m.MovieComponent),
   },
+  {
+    path: 'person/:id',
+    loadComponent: () =>
+      import('./person/person.component').then((m) => m.PersonComponent),
+  },
 ];

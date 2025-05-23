@@ -4,10 +4,11 @@ import { ApiService } from '../services/api.service';
 import { CommonModule } from '@angular/common';
 import { CastMember, CrewMember } from '../types';
 import { ScrollContainerComponent } from '../scroll-container/scroll-container.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-casts',
-  imports: [CommonModule, ScrollContainerComponent],
+  imports: [CommonModule, ScrollContainerComponent, RouterLink],
   templateUrl: './casts.component.html',
   styleUrl: './casts.component.css',
   standalone: true,

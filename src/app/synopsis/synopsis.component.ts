@@ -9,4 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class SynopsisComponent {
   @Input() synopsis: string = '';
+  @Input() isLoadingData: boolean = false;
 }

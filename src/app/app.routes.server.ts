@@ -21,4 +21,12 @@ export const serverRoutes: ServerRoute[] = [
       return [{ id: '1' }, { id: '2' }, { id: '3' }];
     },
   },
+  {
+    path: 'person/:id',
+    renderMode: RenderMode.Prerender,
+    fallback: PrerenderFallback.Client, // Fallback to CSR if not prerendered
+    async getPrerenderParams() {
+      return [{ id: '1' }, { id: '2' }, { id: '3' }];
+    },
+  },
 ];
