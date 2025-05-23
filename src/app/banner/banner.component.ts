@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { Media } from '../types';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, ChevronsLeftIcon } from 'lucide-angular';
-import { RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-banner',
-  imports: [CommonModule, LucideAngularModule, RouterLink],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './banner.component.html',
   styleUrl: './banner.component.css',
 })
@@ -17,6 +17,12 @@ export class BannerComponent {
   @Input() media: Media | null = null;
   @Input() isLoadingData: boolean = false;
   @Input() mediaType: 'movie' | 'tv' = 'movie';
+
+  constructor(private location: Location) {}
+
+  onGoBack() {
+    this.location.back();
+  }
 
   onGetReleaseDate(media: Media): string {
     if (this.mediaType === 'movie') {

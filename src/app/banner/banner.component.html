@@ -9,13 +9,13 @@
         >
           <!-- Rating badge -->
           <div class="p-6 space-y-3">
-            <a routerLink="/" class="flex items-center gap-x-1">
+            <button (click)="onGoBack()" class="flex items-center gap-x-1 cursor-pointer">
               <lucide-angular
                 [img]="ChevronsLeftIcon"
                 class="my-icon"
               ></lucide-angular>
-              Back
-            </a>
+              Go Back
+            </button>
             <div
               class="text-xs flex items-center gap-x-2 select-none pointer-events-none"
             >
