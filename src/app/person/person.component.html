@@ -6,14 +6,16 @@
       [isLoadingData]="isLoadingData()"
     ></app-person-banner>
   </div>
-  <div class="container mx-auto p-5">
+  <div *ngIf="details()" class="container mx-auto p-5 grid gap-4">
     <app-person-movie-credits
       [isLoadingData]="isLoadingData()"
       [name]="details()?.name!"
+      [person_id]="onChangeToString(details()?.id!)"
     ></app-person-movie-credits>
     <app-person-tv-credits
       [isLoadingData]="isLoadingData()"
       [name]="details()?.name!"
+      [person_id]="onChangeToString(details()?.id!)"
     ></app-person-tv-credits>
   </div>
 </div>

@@ -5,6 +5,7 @@ import { PersonTvCreditsComponent } from '../person-tv-credits/person-tv-credits
 import { PersonDetail } from '../types';
 import { environment } from '../../environments/environment';
 import { ApiService } from '../services/api.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-person',
@@ -12,6 +13,7 @@ import { ApiService } from '../services/api.service';
     PersonBannerComponent,
     PersonMovieCreditsComponent,
     PersonTvCreditsComponent,
+    CommonModule
   ],
   templateUrl: './person.component.html',
   styleUrl: './person.component.css',
@@ -52,5 +54,9 @@ export class PersonComponent {
         this.isLoadingData.set(false);
       },
     });
+  }
+
+  onChangeToString(value: number): string {
+    return value.toString();
   }
 }

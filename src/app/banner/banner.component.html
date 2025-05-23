@@ -9,13 +9,13 @@
         >
           <!-- Rating badge -->
           <div class="p-6 space-y-3">
-            <button (click)="onGoBack()" class="flex items-center gap-x-1 cursor-pointer">
+            <a routerLink="/" class="flex items-center gap-x-1 cursor-pointer">
               <lucide-angular
                 [img]="ChevronsLeftIcon"
                 class="my-icon"
               ></lucide-angular>
-              Go Back
-            </button>
+              Back to main
+            </a>
             <div
               class="text-xs flex items-center gap-x-2 select-none pointer-events-none"
             >
@@ -107,7 +107,7 @@
         <img
           *ngIf="media"
           class="object-cover object-center w-full h-full transition-transform duration-200 group-hover:scale-105"
-          [srcset]="`${imageUrl}${media.backdrop_path || media.poster_path}`"
+          [srcset]="media.backdrop_path || media.poster_path ? `${imageUrl}${media.backdrop_path || media.poster_path}` : defaultImageUrl"
           alt="poster"
         />
       </div>

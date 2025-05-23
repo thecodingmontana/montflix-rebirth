@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { LucideAngularModule, ChevronsLeftIcon } from 'lucide-angular';
 import { CommonModule, Location } from '@angular/common';
 import { PersonDetail } from '../types';

@@ -44,10 +44,15 @@ export class ScrollContainerComponent {
   }
 
   updateChevronVisibility() {
-    requestAnimationFrame(() => {
-      const el = this.scrollContainer.nativeElement;
-      this.showLeft = el.scrollLeft > 5;
-      this.showRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
-    });
+    if (
+      typeof window !== 'undefined' &&
+      typeof requestAnimationFrame !== 'undefined'
+    ) {
+      requestAnimationFrame(() => {
+        const el = this.scrollContainer.nativeElement;
+        this.showLeft = el.scrollLeft > 5;
+        this.showRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
+      });
+    }
   }
 }
