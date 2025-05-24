@@ -7,6 +7,9 @@ import { SynopsisComponent } from '../synopsis/synopsis.component';
 import { InfoComponent } from '../info/info.component';
 import { CastsComponent } from '../casts/casts.component';
 import { CommonModule } from '@angular/common';
+import { RecommendationsComponent } from '../recommendations/recommendations.component';
+import { SimilarComponent } from '../similar/similar.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tv',
@@ -16,6 +19,8 @@ import { CommonModule } from '@angular/common';
     InfoComponent,
     CastsComponent,
     CommonModule,
+    RecommendationsComponent,
+    SimilarComponent,
   ],
   templateUrl: './tv.component.html',
   styleUrl: './tv.component.css',
@@ -32,11 +37,21 @@ export class TvComponent {
     this.tv_id = id;
   }
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private activeRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     let url = `/tv/${this.tv_id}?api_key=${environment.tmdbApiKey}`;
     this.onFetchData(url);
+
+    this.activeRoute.params.subscribe((params) => {
+      let _id = params['id'];
+
+      let url = `/tv/${_id}?api_key=${environment.tmdbApiKey}`;
+      this.onFetchData(url);
+    });
   }
 
   onFetchData(url: string): void {
