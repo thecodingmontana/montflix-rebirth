@@ -20,7 +20,14 @@
       class="md:col-span-2"
     ></app-info>
   </div>
-  <div *ngIf="info()" class="sm:p-5">
-    <app-recommendations [mediaType]="'movie'" [mediaId]="onChangeToString(info()?.id!)"></app-recommendations>
+  <div *ngIf="info()" class="sm:p-5 grid gap-4 mb-4">
+    <app-recommendations
+      [mediaType]="'movie'"
+      [mediaId]="onChangeToString(info()?.id!)"
+    ></app-recommendations>
+    <app-similar
+      [mediaType]="'movie'"
+      [mediaId]="onChangeToString(info()?.id!)"
+    ></app-similar>
   </div>
 </div>

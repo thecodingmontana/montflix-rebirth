@@ -1,7 +1,24 @@
+@if (isLoadingData()) {
+<div class="p-5 flex flex-col space-y-4">
+  <div
+    class="w-[20%] h-3 bg-gradient-to-r to-[#c94b4b] from-orange-500 animate-pulse rounded-md"
+  ></div>
+  <div class="flex items-center gap-x-1">
+    @for (item of [1, 2, 3,4]; track $index) {
+    <img
+      class="object-cover object-center animate-pulse rounded-md w-full h-36 sm:h-48 group-hover:scale-105 transition-all duration-200"
+      [srcset]="defaultImageUrl"
+      [alt]="'Loading...'"
+      loading="lazy"
+    />
+    }
+  </div>
+</div>
+} @else {
 <div class="px-5 flex flex-col space-y-4">
   <div class="flex flex-col space-y-2">
     <h2 class="uppercase text-2xl font-bold text-balance font-secondary">
-      Recommendations
+      Recommended {{ mediaType === "movie" ? "Movies" : "Tv Shows" }}
     </h2>
     <app-scroll-container>
       @for (recommendation of recommendations(); track $index) {
@@ -37,14 +54,16 @@
             </div>
             <div class="p-6 flex flex-col space-y-1">
               <div class="sm:text-lg font-secondary font-bold transition-all">
-                {{ mediaType ==='movie' ? recommendation.title : recommendation.name }}
+                {{
+                  mediaType === "movie"
+                    ? recommendation.title
+                    : recommendation.name
+                }}
               </div>
               <div class="text-xs">
                 {{
                   (recommendation.release_date &&
-                    onFormatReleaseDate(
-                      recommendation.release_date
-                    )) ||
+                    onFormatReleaseDate(recommendation.release_date)) ||
                     (recommendation.first_air_date &&
                       onFormatReleaseDate(recommendation.first_air_date))
                 }}
@@ -62,22 +81,30 @@
           <img
             class="object-cover object-bottom w-full h-56 sm:h-48 group-hover:scale-105 transition-all duration-200"
             [srcset]="`${imageUrl}${recommendation.backdrop_path || recommendation.poster_path}`"
-            [alt]="mediaType ==='movie' ? recommendation.title : recommendation.name"
+            [alt]="
+              mediaType === 'movie' ? recommendation.title : recommendation.name
+            "
             loading="lazy"
           />
           } @else {
           <img
             class="object-cover object-bottom w-[20rem] h-56 sm:h-48 group-hover:scale-105 transition-all duration-200"
             [srcset]="defaultImageUrl"
-            [alt]="mediaType ==='movie' ? recommendation.title : recommendation.name"
+            [alt]="
+              mediaType === 'movie' ? recommendation.title : recommendation.name
+            "
             loading="lazy"
           />
           }
         </div>
       </button>
       } @empty {
-      <p>There aren't any recommendations for the {{ mediaType ==='movie' ? 'Movie' : 'Tv Show' }} yet.</p>
+      <p>
+        There aren't any recommended
+        {{ mediaType === "movie" ? "Movies" : "Tv Shows" }} yet.
+      </p>
       }
     </app-scroll-container>
   </div>
 </div>
+}

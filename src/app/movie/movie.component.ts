@@ -9,6 +9,7 @@ import { CastsComponent } from '../casts/casts.component';
 import { CommonModule } from '@angular/common';
 import { RecommendationsComponent } from '../recommendations/recommendations.component';
 import { ActivatedRoute } from '@angular/router';
+import { SimilarComponent } from "../similar/similar.component";
 
 @Component({
   selector: 'app-movie',
@@ -19,7 +20,8 @@ import { ActivatedRoute } from '@angular/router';
     CastsComponent,
     CommonModule,
     RecommendationsComponent,
-  ],
+    SimilarComponent
+],
   templateUrl: './movie.component.html',
   styleUrl: './movie.component.css',
 })
