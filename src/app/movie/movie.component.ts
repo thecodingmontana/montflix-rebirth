@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { environment } from '../../environments/environment';
 import { BannerComponent } from '../banner/banner.component';
@@ -9,7 +9,8 @@ import { CastsComponent } from '../casts/casts.component';
 import { CommonModule } from '@angular/common';
 import { RecommendationsComponent } from '../recommendations/recommendations.component';
 import { ActivatedRoute } from '@angular/router';
-import { SimilarComponent } from "../similar/similar.component";
+import { SimilarComponent } from '../similar/similar.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-movie',
@@ -20,13 +21,17 @@ import { SimilarComponent } from "../similar/similar.component";
     CastsComponent,
     CommonModule,
     RecommendationsComponent,
-    SimilarComponent
-],
+    SimilarComponent,
+  ],
   templateUrl: './movie.component.html',
   styleUrl: './movie.component.css',
 })
 export class MovieComponent {
+  private meta = inject(Meta);
+  private title = inject(Title);
+
   API_KEY = environment.tmdbApiKey;
+  imageUrl = 'https://image.tmdb.org/t/p/original/';
   movie_id: string = '';
   info = signal<Media | null>(null);
   isLoadingData = signal(false);
@@ -42,6 +47,8 @@ export class MovieComponent {
   ) {}
 
   ngOnInit(): void {
+    this.title.setTitle('Movie');
+
     let url = `/movie/${this.movie_id}?api_key=${environment.tmdbApiKey}`;
     this.onFetchData(url);
 
@@ -58,6 +65,38 @@ export class MovieComponent {
       next: (data) => {
         console.log('Data fetched successfully!', data);
         this.info.set(data as Media);
+        this.title.setTitle(`Movie | ${this.info()?.title}`);
+
+        this.meta.updateTag({
+          name: 'description',
+          content: this.info()
+            ? `${this.info()?.overview.slice(0, 150)!}...`
+            : 'Movie description',
+        });
+        this.meta.updateTag({
+          property: 'og:title',
+          content: this.info()
+            ? `${this.info()?.overview.slice(0, 150)!}...`
+            : 'Movie description',
+        });
+        this.meta.updateTag({
+          property: 'og:description',
+          content: this.info()
+            ? `${this.info()?.overview.slice(0, 150)!}...`
+            : 'Movie description',
+        });
+        this.meta.updateTag({
+          property: 'og:image',
+          content: (this.info()?.backdrop_path || this.info()?.poster_path)
+            ? `${this.imageUrl}${(this.info()?.backdrop_path || this.info()?.poster_path)}`
+            : 'assets/images/mesh.png',
+        });
+        this.meta.updateTag({
+          property: 'og:url',
+           content: (this.info()?.backdrop_path || this.info()?.poster_path)
+            ? `${this.imageUrl}${(this.info()?.backdrop_path || this.info()?.poster_path)}`
+            : 'assets/images/mesh.png',
+        });
       },
       error: (error) => {
         console.error('Error fetching data:', error);

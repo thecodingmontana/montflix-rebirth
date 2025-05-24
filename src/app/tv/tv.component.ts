@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { environment } from '../../environments/environment';
 import { BannerComponent } from '../banner/banner.component';
@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { RecommendationsComponent } from '../recommendations/recommendations.component';
 import { SimilarComponent } from '../similar/similar.component';
 import { ActivatedRoute } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tv',
@@ -26,9 +27,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './tv.component.css',
 })
 export class TvComponent {
+  private meta = inject(Meta);
+  private title = inject(Title);
+
   API_KEY = environment.tmdbApiKey;
   info = signal<Media | null>(null);
   isLoadingData = signal(false);
+  imageUrl = 'https://image.tmdb.org/t/p/original/';
 
   tv_id: string = '';
 
@@ -43,6 +48,7 @@ export class TvComponent {
   ) {}
 
   ngOnInit(): void {
+    this.title.setTitle('Tv Show');
     let url = `/tv/${this.tv_id}?api_key=${environment.tmdbApiKey}`;
     this.onFetchData(url);
 
@@ -60,6 +66,38 @@ export class TvComponent {
       next: (data) => {
         console.log('Data fetched successfully!', data);
         this.info.set(data as Media);
+
+        this.title.setTitle(`Tv Show | ${this.info()?.name}`);
+
+        this.meta.updateTag({
+          name: 'description',
+          content: this.info() ? this.info()?.overview.slice(0, 150)! : 'Tv Show description',
+        });
+
+        this.meta.updateTag({
+          property: 'og:title',
+          content: this.info()
+            ? `${this.info()?.overview.slice(0, 150)!}...`
+            : 'Tv Show description',
+        });
+        this.meta.updateTag({
+          property: 'og:description',
+          content: this.info()
+            ? `${this.info()?.overview.slice(0, 150)!}...`
+            : 'Tv Show description',
+        });
+        this.meta.updateTag({
+          property: 'og:image',
+          content: (this.info()?.backdrop_path || this.info()?.poster_path)
+            ? `${this.imageUrl}${(this.info()?.backdrop_path || this.info()?.poster_path)}`
+            : 'assets/images/mesh.png',
+        });
+        this.meta.updateTag({
+          property: 'og:url',
+           content: (this.info()?.backdrop_path || this.info()?.poster_path)
+            ? `${this.imageUrl}${(this.info()?.backdrop_path || this.info()?.poster_path)}`
+            : 'assets/images/mesh.png',
+        });
       },
       error: (error) => {
         console.error('Error fetching data:', error);
